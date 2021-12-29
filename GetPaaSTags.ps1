@@ -3,20 +3,16 @@ Param
     (
     [Parameter(Mandatory=$true)] [String]$SubscriptionID
 )
-
 Connect-AzAccount -WarningAction SilentlyContinue 
 Get-AzSubscription -SubscriptionId $SubscriptionID | Select-AzSubscription 
 $SubscriptionName = (Get-AzSubscription -SubscriptionId $SubscriptionID).Name
 
 Write-Host "You Are Connected to Azure $SubscriptionName" -BackgroundColor Black -ForegroundColor Cyan 
-
 $AZResources = Get-AzResource | select *
         $results      = @()
         $tagsString   = ""
 
 foreach ($resource in $AZResources) {
-
-    # 1
     if ($resource.Kind -eq "functionapp" -and $resource.Tags.Count -ige "1" -and $resource.ResourceType -eq "Microsoft.Web/sites") {
         
         $ResourceType    = "Function App"
@@ -40,9 +36,7 @@ foreach ($resource in $AZResources) {
 }
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
-  }
-    
-    # 2
+  }  
     if ($resource.Kind -eq "functionapp" -and $resource.Tags.Count -eq "0" -and $resource.ResourceType -eq "Microsoft.Web/sites") {
         
         $ResourceType    = "Function App"
@@ -63,8 +57,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }
-
-    #3
     if ($resource.Kind -eq "app" -and $resource.Tags.Count -ige "1" -and $resource.ResourceType -eq "Microsoft.Web/sites") {
         
         $ResourceType    = "App Service"
@@ -89,9 +81,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }
-    
-
-    #4
     if ($resource.Kind -eq "app" -and $resource.Tags.Count -eq "0" -and $resource.ResourceType -eq "Microsoft.Web/sites") {
         
         $ResourceType    = "App Service"
@@ -111,8 +100,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }
-  
-    #5
     if ($resource.Tags.Count -ige "1" -and $resource.ResourceType -eq "Microsoft.DataFactory/factories") {
         
         $ResourceType    = "Data Factory"
@@ -137,9 +124,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }
-    
-    
-    #6
     if ($resource.Tags.Count -eq "0" -and $resource.ResourceType -eq "Microsoft.DataFactory/factories") {
         
         $ResourceType    = "Data Factory"
@@ -159,8 +143,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }
-
-    #7
     if ($resource.Tags.Count -ige "1" -and $resource.ResourceType -eq "Microsoft.Logic/workflows") {
         
         $ResourceType    = "Logic App"
@@ -185,9 +167,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }
-    
-    
-    #8
     if ($resource.Tags.Count -eq "0" -and $resource.ResourceType -eq "Microsoft.Logic/workflows") {
         
         $ResourceType    = "Logic App"
@@ -207,10 +186,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }   
-
-
-
-    #9
     if ($resource.Tags.Count -ige "1" -and $resource.ResourceType -eq "Microsoft.Databricks/workspaces") {
         
         $ResourceType    = "Data Bricks"
@@ -235,9 +210,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }
-    
-    
-    #10
     if ($resource.Tags.Count -eq "0" -and $resource.ResourceType -eq "Microsoft.Databricks/workspaces") {
         
         $ResourceType    = "Data Bricks"
@@ -257,9 +229,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }   
-
-
-    #11
     if ($resource.Tags.Count -ige "1" -and $resource.ResourceType -eq "Microsoft.Synapse/workspaces") {
         
         $ResourceType    = "Azure Synapse"
@@ -284,9 +253,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }
-    
-    
-    #12
     if ($resource.Tags.Count -eq "0" -and $resource.ResourceType -eq "Microsoft.Synapse/workspaces") {
         
         $ResourceType    = "Azure Synapse"
@@ -306,9 +272,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }   
-
-
-    #13
     if ($resource.Tags.Count -ige "1" -and $resource.ResourceType -eq "Microsoft.Sql/servers/databases") {
         
         $ResourceType    = "Azure SQL Database"
@@ -333,9 +296,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }
-    
-    
-    #14
     if ($resource.Tags.Count -eq "0" -and $resource.ResourceType -eq "Microsoft.Sql/servers/databases") {
         
         $ResourceType    = "Azure SQL Database"
@@ -355,8 +315,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
 }   
-
-    #15
     if ($resource.Tags.Count -ige "1" -and $resource.ResourceType -eq "Microsoft.Sql/servers") {
         
         $ResourceType    = "Azure SQL Server"
@@ -381,9 +339,6 @@ foreach ($resource in $AZResources) {
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
   }
-    
-    
-    #16
     if ($resource.Tags.Count -eq "0" -and $resource.ResourceType -eq "Microsoft.Sql/servers") {
         
         $ResourceType    = "Azure SQL Server"
@@ -402,11 +357,7 @@ foreach ($resource in $AZResources) {
 
     $results += New-Object PSObject -Property $details 
     $tagsString = ""
-}   
-
-
-# End
+ }   
 } 
-
 $results | Export-Csv .\apptest.csv -NoTypeInformation -Force
 .\apptest.csv
